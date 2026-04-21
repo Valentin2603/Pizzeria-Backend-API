@@ -21,7 +21,7 @@ public class Pizza extends ProductComposite {
 
     @Override
     public void setPrice() {
-        int total = basePizza.getPrice();
+        double total = basePizza.getPrice();
         for (Ingredient ing : getIngredients()) {
             total += ing.getPrice();
         }
@@ -33,7 +33,7 @@ public class Pizza extends ProductComposite {
 
     @Override
     public double getPrice() {
-        int total = basePizza.getPrice();
+        double total = basePizza.getPrice();
         for (Ingredient ing : getIngredients()) {
             total += ing.getPrice();
         }

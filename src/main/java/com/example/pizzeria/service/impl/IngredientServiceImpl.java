@@ -26,12 +26,12 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Ingredient create(String name, int price) {
+    public Ingredient create(String name, double price) {
         return ingredientRepository.save(new Ingredient(name, price));
     }
 
     @Override
-    public Ingredient update(Long id, String name, int price) {
+    public Ingredient update(Long id, String name, double price) {
         Ingredient ingredient = ingredientRepository.findById(id);
         if (ingredient == null) {
             return null;

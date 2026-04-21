@@ -1,12 +1,11 @@
 package com.example.pizzeria.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ProductComposite {
     protected String name;
-    protected int price;
-    private List<Ingredient> ingredients;
+    protected double price;
+    private final List<Ingredient> ingredients;
 
     public ProductComposite(String name, List<Ingredient> ingredients){
         this.name = name;

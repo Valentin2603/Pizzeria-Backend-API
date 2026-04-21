@@ -4,9 +4,10 @@ package com.example.pizzeria.model;
 public class Ingredient extends Product {
     private Long id;
 
-    public Ingredient(String nameIngredient, int priceIngredient){
+    public Ingredient(String nameIngredient, double priceIngredient){
         super(nameIngredient, priceIngredient);
     }
+
 
     public Long getId() {
         return id;

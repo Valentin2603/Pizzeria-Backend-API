@@ -4,7 +4,7 @@ import com.example.pizzeria.model.Ingredient;
 
 public interface IngredientService extends CrudService<Ingredient, Long> {
 
-    Ingredient create(String name, int price);
+    Ingredient create(String name, double price);
 
-    Ingredient update(Long id, String name, int price);
+    Ingredient update(Long id, String name, double price);
 }

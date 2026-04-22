@@ -27,6 +27,14 @@ public class IngredientRepository {
         return storage.get(id);
     }
 
+    public List<Ingredient> findByIds(List<Long> ids) {
+        List<Ingredient> ingredients = new ArrayList<>(List.of());
+        for (Long id : ids) {
+            ingredients.add(findById(id));
+        }
+        return ingredients;
+    }
+
     public Ingredient save(Ingredient ingredient) {
         ingredient.setId(nextId);
         storage.put(nextId, ingredient);

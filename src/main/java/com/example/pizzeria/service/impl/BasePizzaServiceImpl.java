@@ -17,12 +17,12 @@ public class BasePizzaServiceImpl implements BasePizzaService {
 
     @Override
     public List<BasePizza> findAll() {
-        return basePizzaRepository.getAll();
+        return basePizzaRepository.findAll();
     }
 
     @Override
     public BasePizza findById(Long id) {
-        return basePizzaRepository.getById(id);
+        return basePizzaRepository.findById(id);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class BasePizzaServiceImpl implements BasePizzaService {
 
     @Override
     public BasePizza update(Long id, String name, double price) {
-        BasePizza basePizza = basePizzaRepository.getById(id);
+        BasePizza basePizza = basePizzaRepository.findById(id);
         if (basePizza == null) {
             return null;
         }
@@ -40,7 +40,7 @@ public class BasePizzaServiceImpl implements BasePizzaService {
         basePizza.setName(name);
         basePizza.setPrice(price);
 
-        return basePizzaRepository.update(id, basePizza);
+        return basePizzaRepository.updateById(id, basePizza);
     }
 
     @Override

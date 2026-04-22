@@ -20,15 +20,15 @@ public class BasePizzaRepository {
         return basePizza;
     }
 
-    public BasePizza getById(Long id) {
+    public BasePizza findById(Long id) {
         return storage.get(id);
     }
 
-    public List<BasePizza> getAll() {
+    public List<BasePizza> findAll() {
         return new ArrayList<>(storage.values());
     }
 
-    public BasePizza update(Long id, BasePizza basePizza) {
+    public BasePizza updateById(Long id, BasePizza basePizza) {
         basePizza.setId(id);
         storage.put(id, basePizza);
         return basePizza;

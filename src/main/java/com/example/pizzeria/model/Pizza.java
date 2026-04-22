@@ -1,65 +1,39 @@
 package com.example.pizzeria.model;
 
-import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-public class Pizza extends ProductComposite {
-    private BasePizza basePizza;
-    private List<Ingredient> doubleIngredients = new ArrayList<>();
+public class Pizza {
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
+    private Long basePizzaId;
+    @Getter
+    @Setter
+    private List<Long> ingredientIds;
+    @Getter
+    @Setter
+    private Long id;
 
-
-    public Pizza(String name, BasePizza base, List<Ingredient> ingredients){
-        super(name, ingredients);
-        this.basePizza = base;
-        this.setPrice();
+    public Pizza(String name, Long basePizzaId, List<Long> ingredientIds) {
+        this.name = name;
+        this.basePizzaId = basePizzaId;
     }
 
-
-    public void setBase(BasePizza userBase){
-        this.basePizza = userBase;
+    public void setBaseId(Long userBaseId) {
+        this.basePizzaId = userBaseId;
     }
 
-    @Override
-    public void setPrice() {
-        double total = basePizza.getPrice();
-        for (Ingredient ing : getIngredients()) {
-            total += ing.getPrice();
-        }
-        for (Ingredient ing : doubleIngredients) {
-            total += ing.getPrice();
-        }
-        super.price = total;
+    public Long getBaseId() {
+        return basePizzaId;
     }
 
-    @Override
-    public double getPrice() {
-        double total = basePizza.getPrice();
-        for (Ingredient ing : getIngredients()) {
-            total += ing.getPrice();
-        }
-        for (Ingredient ing : doubleIngredients) {
-            total += ing.getPrice();
-        }
-        super.price = total;
-        return super.price;
+    public void addIngredientId(Long ingredientId) {
+        ingredientIds.add(ingredientId);
     }
-
-    public Pizza clone() {
-        return new Pizza(getName(), getBase(), new ArrayList<>(getIngredients()));
-    }
-
-    public BasePizza getBase() {
-        return basePizza;
-    }
-
-
-    public void doubleIngredient(Ingredient ingredient) {
-        doubleIngredients.add(ingredient);
-    }
-
-    public List<Ingredient> getDoubleIngredients() {
-        return doubleIngredients;
-    }
-
 
 }

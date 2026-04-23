@@ -1,0 +1,20 @@
+# Use this workspace to collaborate
+workspace:
+  id: e70b87f9-50eb-4442-af50-64c01c0b05b1
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ..\postman\collections\Intro to Writing Tests: 53857372-03637599-c14b-404d-9516-caf406622f64
+    ..\postman\collections\Contract Testing: 53857372-3f5d0f1b-5958-4e7f-b72d-d8cedee5cb2e
+    ..\postman\collections\Regression Testing: 53857372-7159f59c-7417-4274-9b9d-6de9a0aaae67
+    ..\postman\collections\Integration Testing: 53857372-9e6882c5-85a0-498d-92ff-356d18726d6b
+    ..\postman\collections\Performance Testing: 53857372-b3eb4ec6-2e2a-4037-831c-ef1e46d2b02a
+    ..\postman\collections\Mock Data Generation: 53857372-d31dc275-17d6-4555-9036-251aed900717
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

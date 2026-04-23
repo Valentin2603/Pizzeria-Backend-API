@@ -1,0 +1,5 @@
+$kind: http-request
+name: ingredients
+url: ""
+method: GET
+order: 1776959776016

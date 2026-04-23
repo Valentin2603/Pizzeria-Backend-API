@@ -1,0 +1,5 @@
+$kind: http-request
+name: pizzas
+url: ""
+method: GET
+order: 918002803237516

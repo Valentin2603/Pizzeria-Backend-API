@@ -25,7 +25,7 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public double calculatePrice(Pizza pizza) {
-        double basePizzaPrice = basePizzaRepository.findById(pizza.getBaseId()).getPrice();
+        double basePizzaPrice = basePizzaRepository.findById(pizza.getBasePizzaId()).getPrice();
         double ingredientsPrice = ingredientRepository.findByIds(pizza.getIngredientIds()).stream()
                 .mapToDouble(Ingredient:: getPrice)
                 .sum();

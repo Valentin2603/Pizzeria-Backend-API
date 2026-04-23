@@ -22,15 +22,13 @@ public class Pizza {
     public Pizza(String name, Long basePizzaId, List<Long> ingredientIds) {
         this.name = name;
         this.basePizzaId = basePizzaId;
+        this.ingredientIds = ingredientIds;
     }
 
     public void setBaseId(Long userBaseId) {
         this.basePizzaId = userBaseId;
     }
 
-    public Long getBaseId() {
-        return basePizzaId;
-    }
 
     public void addIngredientId(Long ingredientId) {
         ingredientIds.add(ingredientId);

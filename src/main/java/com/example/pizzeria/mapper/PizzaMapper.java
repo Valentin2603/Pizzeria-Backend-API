@@ -1,44 +1,54 @@
 package com.example.pizzeria.mapper;
 
+import com.example.pizzeria.dto.pizza.PizzaRequest;
 import com.example.pizzeria.dto.pizza.PizzaResponse;
+import com.example.pizzeria.exception.ResourceNotFoundException;
 import com.example.pizzeria.model.BasePizza;
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
-import com.example.pizzeria.service.BasePizzaService;
-import com.example.pizzeria.service.IngredientService;
-import com.example.pizzeria.service.PizzaService;
+import com.example.pizzeria.repository.BasePizzaRepository;
+import com.example.pizzeria.repository.IngredientRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class PizzaMapper {
-    private final IngredientService ingredientService;
-    private final BasePizzaService basePizzaService;
-    private final PizzaService pizzaService;
+    private final BasePizzaRepository basePizzaRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public PizzaMapper(IngredientService ingredientService, BasePizzaService basePizzaService, PizzaService pizzaService) {
-        this.ingredientService = ingredientService;
-        this.basePizzaService = basePizzaService;
-        this.pizzaService = pizzaService;
+    public PizzaMapper(BasePizzaRepository basePizzaRepository, IngredientRepository ingredientRepository) {
+        this.basePizzaRepository = basePizzaRepository;
+        this.ingredientRepository = ingredientRepository;
+    }
+
+    public Pizza toModel(PizzaRequest request) {
+        BasePizza basePizza = basePizzaRepository.findById(request.basePizzaId()).orElseThrow( () ->
+                new ResourceNotFoundException("Base not found: " + request.basePizzaId())
+        );
+
+        List<Ingredient> ingredients = request.ingredientIds().stream()
+                .map(id -> ingredientRepository.findById(id).orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient not found: " + id)
+                ))
+                .toList();
+
+        return new Pizza(request.name(), basePizza, ingredients);
+    }
+
+    public double calculatePrice(Pizza pizza) {
+        double basePizzaPrice = pizza.getBasePizza().getPrice();
+        double ingredientsPrice = pizza.getIngredients().stream()
+                .mapToDouble(Ingredient::getPrice)
+                .sum();
+
+        return basePizzaPrice + ingredientsPrice;
+
     }
 
     public PizzaResponse toResponse(Pizza pizza) {
-        if (pizza == null) {
-            return null;
-        }
+        double price = calculatePrice(pizza);
 
-        List<Long> ingredientIds = pizza.getIngredientIds() != null
-                ? pizza.getIngredientIds()
-                : List.of();
-
-        List<Ingredient> ingredients = ingredientIds.stream()
-                .map(ingredientService::findById).toList();
-
-        BasePizza basePizza = basePizzaService.findById(pizza.getBasePizzaId());
-
-        double price = pizzaService.calculatePrice(pizza);
-
-        return new PizzaResponse(pizza.getName(), price, basePizza, ingredients);
+        return new PizzaResponse(pizza.getName(), price, pizza.getBasePizza(), pizza.getIngredients());
     }
 }

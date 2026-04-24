@@ -1,37 +1,48 @@
 package com.example.pizzeria.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+@Getter
+@Setter
+@Table(name = "pizzas")
+@Entity
 public class Pizza {
-    @Getter
-    @Setter
-    private String name;
-    @Getter
-    @Setter
-    private Long basePizzaId;
-    @Getter
-    @Setter
-    private List<Long> ingredientIds;
-    @Getter
-    @Setter
+    @Id
+    @Column(name = "pizza_id")
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    public Pizza(String name, Long basePizzaId, List<Long> ingredientIds) {
+    @Column(name = "pizza_name")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "base_pizza_id")
+    private BasePizza basePizza;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pizza_ingredients",
+            joinColumns = @JoinColumn(name = "base_pizza_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
+
+
+
+    public Pizza(String name, BasePizza basePizza, List<Ingredient> ingredients) {
         this.name = name;
-        this.basePizzaId = basePizzaId;
-        this.ingredientIds = ingredientIds;
-    }
-
-    public void setBaseId(Long userBaseId) {
-        this.basePizzaId = userBaseId;
+        this.basePizza = basePizza;
+        this.ingredients = ingredients;
     }
 
 
-    public void addIngredientId(Long ingredientId) {
-        ingredientIds.add(ingredientId);
-    }
+    public Pizza() {
 
+    }
 }

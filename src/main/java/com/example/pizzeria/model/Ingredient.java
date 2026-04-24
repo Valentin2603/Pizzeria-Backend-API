@@ -1,19 +1,31 @@
 package com.example.pizzeria.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Ingredient extends Product {
+import static jakarta.persistence.GenerationType.*;
+@Setter
+@Getter
+@Entity
+public class Ingredient{
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    public Ingredient(String nameIngredient, double priceIngredient){
-        super(nameIngredient, priceIngredient);
+    private String name;
+
+    private double price;
+
+    public Ingredient(String name, double price){
+        this.name = name;
+        this.price = price;
+    }
+
+    public Ingredient() {
+
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

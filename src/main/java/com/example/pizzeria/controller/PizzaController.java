@@ -3,8 +3,10 @@ package com.example.pizzeria.controller;
 import com.example.pizzeria.dto.pizza.PizzaRequest;
 import com.example.pizzeria.dto.pizza.PizzaResponse;
 import com.example.pizzeria.mapper.PizzaMapper;
+import com.example.pizzeria.model.BasePizza;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.PizzaService;
+import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,3 +70,4 @@ public class PizzaController {
         return ResponseEntity.noContent().build();
     }
 }
+

@@ -1,5 +1,6 @@
 package com.example.pizzeria.service.impl;
 
+import com.example.pizzeria.exception.ResourceNotFoundException;
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.repository.IngredientRepository;
 import com.example.pizzeria.service.IngredientService;
@@ -22,7 +23,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient findById(Long id) {
-        return ingredientRepository.findById(id);
+        return ingredientRepository.findById(id).orElseThrow( () ->
+                new ResourceNotFoundException("Ingredient not found: " + id)
+        );
     }
 
     @Override
@@ -32,14 +35,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient update(Long id, String name, double price) {
-        Ingredient ingredient = ingredientRepository.findById(id);
-        if (ingredient == null) {
-            return null;
-        }
+        Ingredient ingredient = ingredientRepository.findById(id).orElseThrow( () ->
+                new ResourceNotFoundException("Ingredient not found: " + id)
+        );
 
         ingredient.setName(name);
         ingredient.setPrice(price);
-        return ingredientRepository.update(id, ingredient);
+        return ingredientRepository.save(ingredient);
     }
 
     @Override

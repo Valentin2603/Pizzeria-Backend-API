@@ -16,10 +16,14 @@ import java.util.List;
 public class PizzaMapper {
     private final BasePizzaRepository basePizzaRepository;
     private final IngredientRepository ingredientRepository;
+    private final BasePizzaMapper basePizzaMapper;
+    private final IngredientMapper ingredientMapper;
 
-    public PizzaMapper(BasePizzaRepository basePizzaRepository, IngredientRepository ingredientRepository) {
+    public PizzaMapper(BasePizzaRepository basePizzaRepository, IngredientRepository ingredientRepository, BasePizzaMapper basePizzaMapper, IngredientMapper ingredientMapper) {
         this.basePizzaRepository = basePizzaRepository;
         this.ingredientRepository = ingredientRepository;
+        this.basePizzaMapper = basePizzaMapper;
+        this.ingredientMapper = ingredientMapper;
     }
 
     public Pizza toModel(PizzaRequest request) {
@@ -49,6 +53,14 @@ public class PizzaMapper {
     public PizzaResponse toResponse(Pizza pizza) {
         double price = calculatePrice(pizza);
 
-        return new PizzaResponse(pizza.getName(), price, pizza.getBasePizza(), pizza.getIngredients());
+        return new PizzaResponse(
+                pizza.getId(),
+                pizza.getName(),
+                price,
+                basePizzaMapper.toResponse(pizza.getBasePizza()),
+                pizza.getIngredients().stream()
+                        .map(ingredientMapper::toResponse)
+                        .toList()
+        );
     }
 }

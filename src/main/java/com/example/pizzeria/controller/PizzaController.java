@@ -3,10 +3,8 @@ package com.example.pizzeria.controller;
 import com.example.pizzeria.dto.pizza.PizzaRequest;
 import com.example.pizzeria.dto.pizza.PizzaResponse;
 import com.example.pizzeria.mapper.PizzaMapper;
-import com.example.pizzeria.model.BasePizza;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.PizzaService;
-import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +34,6 @@ public class PizzaController {
     @GetMapping("/{id}")
     public ResponseEntity<PizzaResponse> getById(@PathVariable Long id) {
         Pizza pizza = pizzaService.findById(id);
-        if (pizza == null) {
-            return ResponseEntity.notFound().build();
-        }
         PizzaResponse response = pizzaMapper.toResponse(pizza);
 
         return ResponseEntity.ok(response);

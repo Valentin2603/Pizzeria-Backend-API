@@ -3,7 +3,6 @@ package com.example.pizzeria.service.impl;
 import com.example.pizzeria.dto.pizza.PizzaRequest;
 import com.example.pizzeria.exception.ResourceNotFoundException;
 import com.example.pizzeria.mapper.PizzaMapper;
-import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.repository.PizzaRepository;
 import com.example.pizzeria.service.PizzaService;
@@ -31,13 +30,17 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public Pizza update(Long id, String name, Long basePizzaId, List<Long> ingredientIds) {
-        pizzaRepository.findById(id).orElseThrow( () ->
+        Pizza pizza = pizzaRepository.findById(id).orElseThrow( () ->
                 new ResourceNotFoundException("Pizza not found: " + id)
         );
 
-        Pizza newPizza = pizzaMapper.toModel(new PizzaRequest(name, basePizzaId, ingredientIds));
+        Pizza requestPizza = pizzaMapper.toModel(new PizzaRequest(name, basePizzaId, ingredientIds));
 
-        return pizzaRepository.save(newPizza);
+        pizza.setName(requestPizza.getName());
+        pizza.setBasePizza(requestPizza.getBasePizza());
+        pizza.setIngredients(requestPizza.getIngredients());
+
+        return pizzaRepository.save(requestPizza);
     }
 
     @Override

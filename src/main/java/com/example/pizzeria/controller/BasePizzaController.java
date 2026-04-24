@@ -33,10 +33,6 @@ public class BasePizzaController {
     public ResponseEntity<BasePizzaResponse> getById(@PathVariable Long id) {
         BasePizza basePizza = basePizzaService.findById(id);
 
-        if (basePizza == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         BasePizzaResponse response = basePizzaMapper.toResponse(basePizza);
         return ResponseEntity.ok(response);
     }
@@ -54,10 +50,6 @@ public class BasePizzaController {
             @RequestBody BasePizzaRequest request
     ) {
         BasePizza basePizza = basePizzaService.update(id, request.name(), request.price());
-
-        if (basePizza == null) {
-            return ResponseEntity.notFound().build();
-        }
 
         BasePizzaResponse response = basePizzaMapper.toResponse(basePizza);
         return ResponseEntity.ok(response);

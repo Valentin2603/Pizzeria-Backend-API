@@ -40,7 +40,7 @@ public class PizzaServiceImpl implements PizzaService {
         pizza.setBasePizza(requestPizza.getBasePizza());
         pizza.setIngredients(requestPizza.getIngredients());
 
-        return pizzaRepository.save(requestPizza);
+        return pizzaRepository.save(pizza);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         pizzaRepository.deleteById(id);
     }
 }

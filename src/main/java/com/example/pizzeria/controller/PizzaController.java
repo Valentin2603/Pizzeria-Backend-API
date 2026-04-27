@@ -5,6 +5,7 @@ import com.example.pizzeria.dto.pizza.PizzaResponse;
 import com.example.pizzeria.mapper.PizzaMapper;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.PizzaService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class PizzaController {
 
 
     @PostMapping()
-    public ResponseEntity<PizzaResponse> create(@RequestBody PizzaRequest request) {
+    public ResponseEntity<PizzaResponse> create(@RequestBody @Valid PizzaRequest request) {
         Pizza pizza = pizzaService.create(request.name(), request.basePizzaId(), request.ingredientIds());
         PizzaResponse response = pizzaMapper.toResponse(pizza);
 
@@ -51,7 +52,7 @@ public class PizzaController {
     @PutMapping("/{id}")
     public ResponseEntity<PizzaResponse> update(
             @PathVariable Long id,
-            @RequestBody PizzaRequest request
+            @RequestBody @Valid PizzaRequest request
     ) {
         Pizza pizza = pizzaService.update(id, request.name(), request.basePizzaId(), request.ingredientIds());
         PizzaResponse response = pizzaMapper.toResponse(pizza);

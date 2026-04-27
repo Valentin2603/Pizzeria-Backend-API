@@ -47,6 +47,7 @@ public class BasePizzaServiceImpl implements BasePizzaService {
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         repository.deleteById(id);
     }
 

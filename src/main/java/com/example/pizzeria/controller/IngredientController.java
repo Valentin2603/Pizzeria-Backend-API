@@ -5,6 +5,7 @@ import com.example.pizzeria.dto.ingredient.IngredientResponse;
 import com.example.pizzeria.mapper.IngredientMapper;
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.service.IngredientService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,16 +44,16 @@ public class IngredientController {
     }
 
     @PostMapping
-    public ResponseEntity<IngredientResponse> create(@RequestBody IngredientRequest request) {
+    public ResponseEntity<IngredientResponse> create(@RequestBody @Valid IngredientRequest request) {
         Ingredient ingredient = ingredientService.create(request.name(), request.price());
         IngredientResponse response = ingredientMapper.toResponse(ingredient);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public IngredientResponse update(@PathVariable Long id, @RequestBody IngredientRequest request) {
+    public ResponseEntity<IngredientResponse> update(@PathVariable Long id, @RequestBody @Valid IngredientRequest request) {
         Ingredient ingredient = ingredientService.update(id, request.name(), request.price());
-        return ingredientMapper.toResponse(ingredient);
+        return ResponseEntity.ok(ingredientMapper.toResponse(ingredient));
     }
 
     @DeleteMapping("/{id}")

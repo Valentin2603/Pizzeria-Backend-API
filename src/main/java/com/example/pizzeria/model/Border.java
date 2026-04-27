@@ -1,50 +1,62 @@
-//package com.example.pizzeria.model;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class Border extends ProductComposite{
-//    private List<Pizza> listImpossiblePizzas;
-//
-//    public Border(String name, List<Ingredient> ingredientList, List<Pizza> listImpossiblePizzas){
-//        super(name, ingredientList);
-//        this.listImpossiblePizzas = listImpossiblePizzas;
-//        super.setPrice();
-//    }
-//
-//    public List<Pizza> getListImpossiblePizzas() {
-//        return listImpossiblePizzas;
-//    }
-//
-//    public void setListImpossiblePizzas(List<Pizza> listImpossiblePizzas) {
-//        this.listImpossiblePizzas = listImpossiblePizzas;
-//    }
-//
-//    public void removeListImpossiblePizzas() {
-//        listImpossiblePizzas.clear();
-//    }
-//
-//    public boolean isCompatibleWith(Pizza pizza) {
-//        if (listImpossiblePizzas == null)
-//            return true;
-//        for (Pizza forbidden : listImpossiblePizzas) {
-//            if (forbidden.getName().equals(pizza.getName())) {
-//                return false;
-//            }
-//
-//        }
-//
-//        return true;
-//    }
-//
-//
-//    public Border copy() {
-//
-//        return new Border(
-//                this.name,
-//                new ArrayList<>(this.getIngredientIds()),
-//                new ArrayList<>(this.listImpossiblePizzas)
-//        );
-//
-//    }
-//}
+package com.example.pizzeria.model;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+@Getter
+@Setter
+@Entity
+public class Border {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private double price;
+
+    @ManyToMany
+    @JoinTable(
+            name = "border_ingredients",
+            joinColumns = @JoinColumn(name = "border_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
+
+    @ManyToMany
+    @JoinTable(
+            name = "forbidden_pizzas",
+            joinColumns = @JoinColumn(name = "border_id"),
+            inverseJoinColumns = @JoinColumn(name = "pizza_id")
+    )
+    private List<Pizza> forbiddenPizzas;
+
+    public Border(String name, double price, List<Ingredient> ingredients, List<Pizza> forbiddenPizzas){
+        this.name = name;
+        this.price = price;
+        this.ingredients = ingredients;
+        this.forbiddenPizzas = forbiddenPizzas;
+    }
+
+    public Border() {
+
+    }
+
+
+    public boolean isCompatibleWith(Pizza pizza) {
+        if (forbiddenPizzas == null) {
+            return true;
+        }
+
+        return forbiddenPizzas.stream()
+                .noneMatch(forbidden -> forbidden.getId().equals(pizza.getId()));
+
+    }
+
+
+}

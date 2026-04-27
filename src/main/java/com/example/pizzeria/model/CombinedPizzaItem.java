@@ -2,7 +2,7 @@
 //
 //import com.example.pizzeria.model.enums.PizzaSize;
 //
-//public class CombinedPizzaItem extends PizzaItem {
+//public class CombinedPizzaItem extends OrderItem {
 //
 //    private Pizza left;
 //    private Pizza right;
@@ -15,14 +15,14 @@
 //
 //
 //    public double calculateBasePrice() {
-//        return (left.getPrice() + right.getPrice()) / 2.0;
+//        return (left.calculatePrice() + right.calculatePrice()) / 2.0;
 //    }
 //
 //    @Override
 //    public double calculatePrice() {
 //        double total = calculateBasePrice();
 //        if (border != null) {
-//            total += border.getPrice();
+//            total += border.calculatePrice();
 //        }
 //        return total * size.getCoefficient();
 //    }

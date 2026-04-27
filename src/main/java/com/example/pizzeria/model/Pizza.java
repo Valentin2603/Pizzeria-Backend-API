@@ -22,13 +22,13 @@ public class Pizza {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "base_pizza_id")
+    @JoinColumn(name = "base_id")
     private BasePizza basePizza;
 
     @ManyToMany
     @JoinTable(
             name = "pizza_ingredients",
-            joinColumns = @JoinColumn(name = "base_pizza_id"),
+            joinColumns = @JoinColumn(name = "pizza_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     private List<Ingredient> ingredients;

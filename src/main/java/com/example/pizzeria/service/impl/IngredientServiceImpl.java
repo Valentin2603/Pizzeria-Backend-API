@@ -46,6 +46,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         ingredientRepository.deleteById(id);
     }
 }

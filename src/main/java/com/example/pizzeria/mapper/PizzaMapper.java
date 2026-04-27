@@ -8,6 +8,7 @@ import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.repository.BasePizzaRepository;
 import com.example.pizzeria.repository.IngredientRepository;
+import com.example.pizzeria.service.PricingService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,10 +17,16 @@ import java.util.List;
 public class PizzaMapper {
     private final BasePizzaRepository basePizzaRepository;
     private final IngredientRepository ingredientRepository;
+    private final BasePizzaMapper basePizzaMapper;
+    private final IngredientMapper ingredientMapper;
+    private final PricingService pricingService;
 
-    public PizzaMapper(BasePizzaRepository basePizzaRepository, IngredientRepository ingredientRepository) {
+    public PizzaMapper(BasePizzaRepository basePizzaRepository, IngredientRepository ingredientRepository, BasePizzaMapper basePizzaMapper, IngredientMapper ingredientMapper, PricingService pricingService) {
         this.basePizzaRepository = basePizzaRepository;
         this.ingredientRepository = ingredientRepository;
+        this.basePizzaMapper = basePizzaMapper;
+        this.ingredientMapper = ingredientMapper;
+        this.pricingService = pricingService;
     }
 
     public Pizza toModel(PizzaRequest request) {
@@ -36,19 +43,18 @@ public class PizzaMapper {
         return new Pizza(request.name(), basePizza, ingredients);
     }
 
-    public double calculatePrice(Pizza pizza) {
-        double basePizzaPrice = pizza.getBasePizza().getPrice();
-        double ingredientsPrice = pizza.getIngredients().stream()
-                .mapToDouble(Ingredient::getPrice)
-                .sum();
-
-        return basePizzaPrice + ingredientsPrice;
-
-    }
 
     public PizzaResponse toResponse(Pizza pizza) {
-        double price = calculatePrice(pizza);
+        double price = pricingService.calculatePizzaPrice(pizza);
 
-        return new PizzaResponse(pizza.getName(), price, pizza.getBasePizza(), pizza.getIngredients());
+        return new PizzaResponse(
+                pizza.getId(),
+                pizza.getName(),
+                price,
+                basePizzaMapper.toResponse(pizza.getBasePizza()),
+                pizza.getIngredients().stream()
+                        .map(ingredientMapper::toResponse)
+                        .toList()
+        );
     }
 }

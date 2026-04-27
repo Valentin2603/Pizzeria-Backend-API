@@ -26,12 +26,12 @@
 //        price = 0;
 //        for (Long id : ingredientIds) {
 //            Ingredient ingredient =
-//            price += ing.getPrice();
+//            price += ing.calculatePrice();
 //        }
 //
 //    }
 //
-//    public double getPrice() {
+//    public double calculatePrice() {
 //        return price;
 //    }
 //

@@ -12,8 +12,8 @@ import java.util.List;
 public class BasePizzaServiceImpl implements BasePizzaService {
     private final BasePizzaRepository repository;
 
-    public BasePizzaServiceImpl(BasePizzaRepository Repository) {
-        this.repository = Repository;
+    public BasePizzaServiceImpl(BasePizzaRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -47,6 +47,7 @@ public class BasePizzaServiceImpl implements BasePizzaService {
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         repository.deleteById(id);
     }
 

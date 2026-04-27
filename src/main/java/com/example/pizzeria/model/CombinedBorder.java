@@ -25,9 +25,9 @@
 //    }
 //
 //    @Override
-//    public double getPrice() {
+//    public double calculatePrice() {
 //
-//        return (left.getPrice() + right.getPrice()) / 2;
+//        return (left.calculatePrice() + right.calculatePrice()) / 2;
 //
 //    }
 //
